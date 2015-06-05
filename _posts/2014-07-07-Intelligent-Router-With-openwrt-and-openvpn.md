@@ -237,7 +237,7 @@ python chnroutes.py -p android
 
 来张小图
 
-![MG_1950-300x224.jpg](http://7xjbml.com1.z0.glb.clouddn.com/MG_1950-300x224.jpg)
+![MG_1950-300x224.jpg](http://7xjbml.com1.z0.glb.clouddn.com/IMG_1950-300x224.jpg)
 
         
         
