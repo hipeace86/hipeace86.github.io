@@ -12,14 +12,19 @@
 <vnodes>
 <v t="office.20150529181219.1" a="E"><vh>jekyll-blog.leo</vh>
 <v t="office.20150529181219.2" a="E"><vh>_posts</vh>
-<v t="office.20150529181219.3"><vh>@nosent 2015-03-08-welcome-to-jekyll.markdown</vh></v>
-<v t="Tech.20150529220531.2" a="E"><vh>2015</vh>
+<v t="Tech.20150529220531.2"><vh>2015</vh>
 <v t="Tech.20150529220531.3"><vh>@nosent  2015-05-29-install-openstack-on-ubuntu.md</vh></v>
 </v>
 <v t="Tech.20150529220531.10" a="E"><vh>2014</vh>
 <v t="Tech.20150529220531.12"><vh>@nosent 2014-08-21-backbone-first-programing.md</vh></v>
 <v t="Tech.20150529220531.11"><vh>@nosent 2014-07-08-virtualbox-install-openstack.md</vh></v>
 <v t="Tech.20150529220531.13"><vh>@nosent 2014-07-07-Intelligent-Router-With-openwrt-and-openvpn.md</vh></v>
+</v>
+<v t="Tech.20150610215432.2" a="E"><vh>2013</vh>
+<v t="Tech.20150610215432.3"><vh>@nosent 2013-12-31-Install-OpenVpn-Server-On-CentOS.md</vh></v>
+<v t="Tech.20150610215432.4"><vh>@nosent 2013-09-18-openresty-install-luarocks.md</vh></v>
+<v t="Tech.20150610215432.5"><vh>@nosent 2013-09-12-variable-in-tornado-template-file.md</vh></v>
+<v t="Tech.20150610215432.6"><vh>@nosent 2013-08-14-install-latest-chrome-on-centos.md</vh></v>
 </v>
 <v t="office.20150529181219.4" a="E"><vh>2011</vh>
 <v t="office.20150529181219.5"><vh>@nosent 2011-02-23-first-python-programe.md</vh></v>
@@ -366,36 +371,356 @@ tags: 虚拟化
 
 
 准备工作</t>
+<t tx="Tech.20150610215432.2">@others</t>
+<t tx="Tech.20150610215432.3">---
+layout: post
+title:  "用Centos打造自己的openvpn服务器"
+date:   2013-12-31 09:43:49
+categories: 路由 openvpn
+tags: 折腾
+---
+
+
+之前写过一个建立pptp服务器的文章，这次也是没有办法，新拉的铁通的光纤把vpn给封了 pptp无法连接
+网上搜索了下，发现openvpn还是可以用的
+就又折腾了一把
+
+准备工作：centos 服务器一台（最好境外的，比如我现在用的这个vps）
+第一步，先给服务器添加扩展源
+
+
+{% highlight bash %}
+
+wget http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+
+
+{% endhighlight %}
+
+
+我服务器还是centos 5的32位版本，其它版本就自己搜索下载
+第二步，安装
+
+
+{% highlight bash %}
+rpm -Uvh epel-release-5-4.noarch.rpm
+yum install -y openvpn
+{% endhighlight %}
+
+
+第三步，配置
+
+{% highlight bash %}
+cp /usr/share/doc/openvpn-2.3.2/sample/sample-config-files/server.conf /etc/openvpn/
+cd /etc/openvpn
+vi server.conf
+{% endhighlight %}
+
+把server.conf中的以下几行做下修改
+{% highlight bash %}
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+user nobody
+group nobody
+{% endhighlight %}
+
+除dns那两个需要改成自己的以外，其它只要把前面的分号去掉即可
+
+第四步，生成keys
+{% highlight bash %}
+cd /tmp
+wget https://github.com/downloads/OpenVPN/easy-rsa/easy-rsa-2.2.0_master.tar.gz
+tar zxvf easy-rsa-2.2.0_master.tar.gz
+mv /tmp/easy-rsa-2.2.0_master/easy-rsa/2.0 /etc/openvpn/easy-rsa
+cd /etc/openvpn/easy-rsa
+{% endhighlight %}
+
+
+vars文件中的以下配置可做下修改
+
+{% highlight bash %}
+export KEY_COUNTRY="US"
+export KEY_PROVINCE="NY"
+export KEY_CITY="New York"
+export KEY_ORG="Organization Name"
+export KEY_EMAIL="administrator@example.com"
+export KEY_CN=vpn.example.com
+export KEY_NAME=server
+export KEY_OU=server
+{% endhighlight %}
+
+生成根证书
+
+{% highlight bash %}
+source ./vars
+./clean-all
+./build-ca
+{% endhighlight %}
+
+生成服务端证书
+
+{% highlight bash %}
+./build-key-server server
+{% endhighlight %}
+
+
+生成时注意，最后两步要输入Y再回车
+
+生成 Diffie Hellman 证书
+
+
+{% highlight bash %}
+./build-dh
+{% endhighlight %}
+
+把生成的证书文件拷贝到/etc/openvpn目录下
+
+
+{% highlight bash %}
+cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
+{% endhighlight %}
+
+
+第五步，系统配置
+
+
+{% highlight bash %}
+vi /etc/sysctl.conf
+net.ipv4.ip_forward = 1 #把此处设置为1 保存
+{% endhighlight %}
+
+iptables防火墙 配置
+
+
+{% highlight bash %}
+/etc/init.d/iptables stop #关闭防火墙
+vi /etc/sysconfig/iptables #编辑防火墙规则文件，之前需配置了防火墙关闭时自动保存
+ 
+#在*filter规则下加入
+-A INPUT -p udp -m udp --dport 1194 -j ACCEPT
+-A FORWARD -d 10.8.0.0/24 -j ACCEPT
+-A FORWARD -s 10.8.0.0/24 -j ACCEPT
+#在*net规则下加入
+-A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+#此处如果多个网卡的，eth0需指定外网网卡的设备
+ 
+/etc/init.d/iptables start   #启动防火墙
+sysctl -p  #让之前设置的ip_forward生效
+{% endhighlight %}
+
+
+第六步，启动openvpn服务;并设置为开机启动
+
+
+{% highlight bash %}
+service openvpn start
+chkconfig openvpn on
+{% endhighlight %}
+
+
+第七步，生成客户端证书
+
+
+{% highlight bash %}
+cd /etc/openvpn/easy-rsa
+./build-key client
+{% endhighlight %}
+
+生成时注意，最后两步要输入Y再回车
+
+拿着keys文件夹下的ca.crt,client.crt,clent.key用客户端就能连接了，只帖一个客户端的配置文件，不做详细说明了
+
+
+{% highlight bash %}
+client
+remote #your remote ip
+ca ca.crt
+cert client.crt
+key client.key
+dev tun
+proto udp
+nobind
+auth-nocache
+script-security 2
+persist-key
+persist-tun
+user openvpn
+group openvpn
+comp-lzo
+verb 3
+{% endhighlight %}
+
+
+#注意指定远程ip和证书路径
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</t>
+<t tx="Tech.20150610215432.4">---
+layout: post
+title:  "openresty 安装luarocks"
+date:   2013-09-18 11:43:49
+categories: OpenResty Lua
+tags: 折腾 Lua
+---
+
+
+luarocks是一个lua包的管理工具，就像python下的pip
+首页要下载源码
+
+{% highlight bash %}
+wget http://luarocks.org/releases/luarocks-2.X.X.tar.gz
+{% endhighlight %}
+
+
+[源码可在此下载]
+
+{% highlight bash %}
+tar -xzvf luarocks-2.X.X.tar.gz
+cd luarocks-2.X.X/
+ 
+./configure --prefix=/usr/local/openresty/luajit \
+    --with-lua=/usr/local/openresty/luajit/ \
+    --lua-suffix=jit \
+    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.0
+make
+sudo make install
+{% endhighlight %}
+
+这里我这里把它装到了openresty的目录下
+
+使用luarocks安装扩展包
+
+{% highlight bash %}
+/usr/local/openresty/luajit/bin/luarocks install lapis
+{% endhighlight %}
+
+[Lapis] is a framework for building web applications using MoonScript (or Lua) that runs inside of a customized version of Nginx called OpenResty.
+
+
+
+[源码可在此下载]: http://luarocks.org/releases/
+[Lapis]:http://leafo.net/lapis/
+</t>
+<t tx="Tech.20150610215432.5">---
+layout: post
+title:  tornado模板中include文件名中包含变量
+date:   2013-09-12 11:43:49
+categories: Python Tornado
+tags: Python
+---
+
+
+遇到了这一问题，在模板中要包含文件，不过文件名是需要变的 按开始的写法
+
+{% highlight python %}
+
+    {% raw %}
+    {% include 'ext/node{{id}}.html' %}
+   {% endraw %}
+{% endhighlight %}
+
+
+
+结果运行时报错， ext/node{{id}}.html 文件没有找到
+
+[google group] 里找到了对应的方案
+使用
+
+
+{% highlight python %}
+
+{% raw %}
+{% module Template('ext/node'+id+".html") %}
+{% endraw %}
+
+{% endhighlight %}
+
+
+替代
+不过要注意，在使用module Template时，如果模板中使用到了变量，此处调用时也要把变量传进去 例如
+
+
+{% highlight python %}
+
+{% raw %}
+    {% module Template('ext/node'+id+".html",id=id) %}
+
+
+{% endraw %}
+
+{% endhighlight %}
+
+
+
+[google group]: https://groups.google.com/forum/#!topic/python-tornado/JQFs3Z6JTXw
+
+</t>
+<t tx="Tech.20150610215432.6">---
+layout: post
+title:  centos下安装最新的google-chrome浏览器
+date:   2013-08-14 09:35:09
+categories: CentOS Chrome
+tags: 折腾
+---
+
+
+ 最新的google-chrome浏览器默认不在centos6.X中支持了
+不过对于拥有更新强迫症的人来说真是一个大问题
+网上找到一教程 [原地址]
+很简单的就做完处理了
+
+
+* 创建 /etc/yum.repos.d/google-chrome.repo 文件 并加入 如下内容
+
+{% highlight bash %}
+
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+{% endhighlight %}
+
+* 执行下列命令
+
+{% highlight bash %}
+
+wget http://chrome.richardlloyd.org.uk/install_chrome.sh
+chmod u+x install_chrome.sh
+./install_chrome.sh
+
+{% endhighlight %}
+
+直接就安装了，不过要注意下载文件时使用了appspot的内容，大家懂的
+
+
+[原地址]: http://www.tecmint.com/install-google-chrome-on-redhat-centos-fedora-linux/
+
+</t>
 <t tx="office.20150529181219.1"></t>
 <t tx="office.20150529181219.2">@path _posts
 @language rest</t>
-<t tx="office.20150529181219.3">---
-layout: post
-title:  "Welcome to Jekyll!"
-date:   2015-03-08 22:21:49
-categories: Jekyll Update
-tags: Jekyll Update
----
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
-
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
-
-Jekyll also offers powerful support for code snippets:
-
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=&gt; prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
-
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll’s dedicated Help repository][jekyll-help].
-
-[jekyll]:      http://jekyllrb.com
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-help]: https://github.com/jekyll/jekyll-help
-</t>
 <t tx="office.20150529181219.4">@others</t>
 <t tx="office.20150529181219.5">---
 layout: post
