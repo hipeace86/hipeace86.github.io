@@ -12,21 +12,23 @@
 <vnodes>
 <v t="office.20150529181219.1" a="E"><vh>jekyll-blog.leo</vh>
 <v t="office.20150529181219.2" a="E"><vh>_posts</vh>
-<v t="Tech.20150529220531.2"><vh>2015</vh>
+<v t="Tech.20150529220531.2" a="E"><vh>2015</vh>
+<v t="office.20150611132001.4"><vh>@nosent _2015-06-11-export-openstack-with-ceph-rbd-file-into-file.md</vh></v>
+<v t="office.20150611132001.2"><vh>@nosent 2015-06-11-mesosphere-single-node-install-centos6.md</vh></v>
 <v t="Tech.20150529220531.3"><vh>@nosent  2015-05-29-install-openstack-on-ubuntu.md</vh></v>
 </v>
-<v t="Tech.20150529220531.10" a="E"><vh>2014</vh>
+<v t="Tech.20150529220531.10"><vh>2014</vh>
 <v t="Tech.20150529220531.12"><vh>@nosent 2014-08-21-backbone-first-programing.md</vh></v>
 <v t="Tech.20150529220531.11"><vh>@nosent 2014-07-08-virtualbox-install-openstack.md</vh></v>
 <v t="Tech.20150529220531.13"><vh>@nosent 2014-07-07-Intelligent-Router-With-openwrt-and-openvpn.md</vh></v>
 </v>
-<v t="Tech.20150610215432.2" a="E"><vh>2013</vh>
+<v t="Tech.20150610215432.2"><vh>2013</vh>
 <v t="Tech.20150610215432.3"><vh>@nosent 2013-12-31-Install-OpenVpn-Server-On-CentOS.md</vh></v>
 <v t="Tech.20150610215432.4"><vh>@nosent 2013-09-18-openresty-install-luarocks.md</vh></v>
 <v t="Tech.20150610215432.5"><vh>@nosent 2013-09-12-variable-in-tornado-template-file.md</vh></v>
 <v t="Tech.20150610215432.6"><vh>@nosent 2013-08-14-install-latest-chrome-on-centos.md</vh></v>
 </v>
-<v t="office.20150529181219.4" a="E"><vh>2011</vh>
+<v t="office.20150529181219.4"><vh>2011</vh>
 <v t="office.20150529181219.5"><vh>@nosent 2011-02-23-first-python-programe.md</vh></v>
 </v>
 </v>
@@ -768,5 +770,56 @@ def copyfile(src, dst):
 movefile('/home/server/20')
 
 {% endhighlight %}</t>
+<t tx="office.20150611132001.2">---
+layout: post
+title:  centos6单节点安装mesosphere
+date:   2015-06-11 13:25:18
+categories: mesosphere
+tags: 折腾
+---
+
+
+* 添加源
+
+    
+{% highlight bash %}
+rpm -Uvh http://repos.mesosphere.io/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm
+{% endhighlight %}
+
+* 安装软件
+
+    
+{% highlight bash %}
+yum -y install mesos marathon
+{% endhighlight %}
+
+* 如果没有安装zookeeper，则执行如下命令
+
+{% highlight bash %}
+rpm -Uvh http://archive.cloudera.com/cdh4/one-click-install/redhat/6/x86_64/cloudera-cdh-4-0.x86_64.rpm
+yum -y install zookeeper
+zookeeper-server-initialize --myid=1
+{% endhighlight %}
+
+* 启动服务
+
+{% highlight bash %}
+zookeeper-server start
+
+service mesos-master start
+service mesos-slave start
+service marathon start
+
+{% endhighlight %}
+</t>
+<t tx="office.20150611132001.4">---
+layout: post
+title:  将ceph中的openstack虚拟机导出为镜像
+date:   2015-06-11 20:17:58
+categories: openstack ceph
+tags: 虚拟化
+---
+
+准备中</t>
 </tnodes>
 </leo_file>
