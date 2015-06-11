@@ -22,11 +22,15 @@
 <v t="Tech.20150529220531.11"><vh>@nosent 2014-07-08-virtualbox-install-openstack.md</vh></v>
 <v t="Tech.20150529220531.13"><vh>@nosent 2014-07-07-Intelligent-Router-With-openwrt-and-openvpn.md</vh></v>
 </v>
-<v t="Tech.20150610215432.2"><vh>2013</vh>
+<v t="Tech.20150610215432.2" a="E"><vh>2013</vh>
 <v t="Tech.20150610215432.3"><vh>@nosent 2013-12-31-Install-OpenVpn-Server-On-CentOS.md</vh></v>
 <v t="Tech.20150610215432.4"><vh>@nosent 2013-09-18-openresty-install-luarocks.md</vh></v>
 <v t="Tech.20150610215432.5"><vh>@nosent 2013-09-12-variable-in-tornado-template-file.md</vh></v>
 <v t="Tech.20150610215432.6"><vh>@nosent 2013-08-14-install-latest-chrome-on-centos.md</vh></v>
+<v t="Tech.20150611213700.2"><vh>@nosent 2013-08-07-debug-mysql-procedures-or-function-with-vistualstudio.md</vh></v>
+<v t="Tech.20150611213700.3"><vh>@nosent 2013-04-19-mercurial-dotencode-not-supported.md</vh></v>
+<v t="Tech.20150611213700.4"><vh>@nosent 2013-04-17-CentOS-Install-Nvidia-Driver.md</vh></v>
+<v t="Tech.20150611213700.5"><vh>@nosent 2013-04-16-CentOS-Compile-Install-Python27.md</vh></v>
 </v>
 <v t="office.20150529181219.4"><vh>2011</vh>
 <v t="office.20150529181219.5"><vh>@nosent 2011-02-23-first-python-programe.md</vh></v>
@@ -720,6 +724,129 @@ chmod u+x install_chrome.sh
 [原地址]: http://www.tecmint.com/install-google-chrome-on-redhat-centos-fedora-linux/
 
 </t>
+<t tx="Tech.20150611213700.2">---
+layout: post
+title:  visual studio 调试mysql的存储过程、函数
+date:   2013-08-07 11:31:06
+categories: Mysql
+tags: 折腾
+---
+
+
+不管写什么程序都少不了调试
+mysql的存储过程调试还真是有些麻烦，平常使用的管理工具sqlyog也支持调试功能
+后来找到了使用visual studio调试的方法，也不写具体的使用方法和截图了，具体的请看
+
+http://dev.mysql.com/doc/refman/5.0/en/connector-net-visual-studio-debugger.html
+
+说下使用过程出现的一个问题；服务端是在centos上；按上面方法调试时出现了 
+
+table server side debugger.debug scope doesn’t exist 错误
+
+原来是服务端没有设置表名区分大小写造成的
+只要在my.cnf的mysqld区间加入
+
+{% highlight mysql %}
+lower_case_table_names=1
+{% endhighlight %}
+然后重启mysql 即可</t>
+<t tx="Tech.20150611213700.3">---
+layout: post
+title:  "Centos mercurial abort: requirement 'dotencode' not supported!错误解决办法"
+date:   2013-04-19 12:33:06
+categories: mercurial hg
+tags: 折腾
+---
+
+换上centos安装mercurial后在同步项目时出现了abort: requirement ‘dotencode’ not supported! 错误
+查询原来是版本过底访问高版本创建的仓库所造成的
+
+没有最新的mercurial源 只能编译安装了
+
+下载源码 http://mercurial.selenic.com/release/mercurial-2.5.4.tar.gz
+
+安装python-devel python-docutils
+进入解压后的目录
+{% highlight  bash%}
+make all
+make install
+{% endhighlight%}
+
+hg 已安装成功
+
+默认安装到了/usr/local/bin下面
+普通用户不能访问 local下创建一个软连 
+
+{%highlight bash %}
+ln -s /usr/local/bin/hg /usr/bin/
+{% endhighlight %}</t>
+<t tx="Tech.20150611213700.4">---
+layout: post
+title:  CentOS安装NVIDIA显卡驱动
+date:   2013-04-17 23:31:06
+categories: CentOS
+tags: 折腾
+---
+
+CentOS不像ubuntu那样省事，很多驱动ubuntu是自动安装的
+刚换的机器装了CentOS结果显卡驱动安装不了，出现
+
+
+
+`ERROR: You appear to be running an X server; please exit X before            
+         installing.  For further details, please see the section INSTALLING   
+         THE NVIDIA DRIVER in the README available on the Linux driver         
+         download page at www.nvidia.com.`
+
+
+错误 直接修改/etc/inittab下把5改成了3然后重启安装也一样有这个错误
+
+后来找到解决办法，原来是与系统自带的2D驱动冲突
+要做以下修改
+
+{% highlight bash linenos%}
+vi /etc/modprobe.d/blacklist.conf
+#添加
+blacklist nouveau
+{% endhighlight %}
+
+
+还有上面提到的/etc/inittab 中 id:5:initdefault: 修改为 id:3:initdefault:
+重新制作启动镜像
+
+{% highlight bash linenos%}
+mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak
+dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
+{% endhighlight %}
+
+
+重启以root登陆
+再次安装驱动则成功
+将/etc/inittab中的3改成5 重启系统
+
+ok啦 驱动安装成功</t>
+<t tx="Tech.20150611213700.5">---
+layout: post
+title:  CentOS 编译安装python2.7
+date:   2013-04-16 21:47:06
+categories: CentOS Python
+tags: Python
+---
+
+安装过程
+
+{% highlight bash %}
+yum groupinstall "Development tools"
+yum install zlib-devel
+yum install libxml2-devel libxslt-devel
+wget http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tgz
+tar xf Python-2.7.3.tgz 
+cd Python-2.7.3
+./configure --prefix=/usr/local
+make &amp;&amp; make altinstall
+{% endhighlight%}
+
+多个版本的python共存，建议使用virtualenv来管理项目，指定使用哪个版本的python</t>
 <t tx="office.20150529181219.1"></t>
 <t tx="office.20150529181219.2">@path _posts
 @language rest</t>
