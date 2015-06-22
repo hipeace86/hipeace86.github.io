@@ -1,0 +1,14 @@
+.animation{
+    margin: 0 auto;
+}
+.animation img{
+	position: absolute;
+        margin:0 auto;
+}
+
+.container .slide-display{
+	display:none;
+}
+.container .current{
+	display:block;
+}

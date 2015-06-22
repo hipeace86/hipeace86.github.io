@@ -1,0 +1,150 @@
+/* The esp. Effect support 
+    letter-spacing:-20px;
+    width:100%;
+    border : 1px dotter #fff;
+takahashi ~ 高桥流 大字演示
+*/
+.takahashi0 {
+    font-size: 120%;font-weight :  bolder;
+    word-spacing: 0px;letter-spacing: -4px;
+    line-height : 100%;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 2em;
+    }
+.takahashi1 {
+    font-size: 150%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 2em;
+    }
+.takahashi2 {
+    font-size: 200%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 2em;
+    }
+.takahashi3 {
+    font-size: 300%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;
+    margin: 10px 0 0 0;
+    padding: 0;
+    }
+.takahashi4 {
+    font-size: 400%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;
+    margin: 20px 0 0 0;
+    padding: 0;
+    }
+.takahashi5 {
+    font-size: 500%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;
+    text-align: center;
+    margin: 30px 0 0 0;
+    padding: 0;
+    }
+
+.takahashi {
+    font-size: 600%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;    
+    margin: 40px 0 0 0;
+    padding: 0;
+    }
+
+.takahashi7 {
+    font-size: 700%;font-weight :  bolder;
+    line-height : 100%;
+    word-spacing: 0px;letter-spacing: -4px;
+    text-align: center;
+    
+    margin: 40px 0 0 0;
+    padding: 0;
+    }
+.takahashi8 {
+    font-size: 800%;font-weight :  bolder;
+    line-height : 90%;
+    word-spacing: 0px;letter-spacing: -4px;
+    text-align: center;
+    
+    margin: 40px 0 0 0;
+    padding: 0;
+    }
+.takahashi9 {
+    font-size: 1000%;font-weight :  bolder;
+    line-height : 80%;
+    word-spacing: 0px;letter-spacing: -4px;
+    text-align: center;
+    
+    margin: 40px 0 0 0;
+    padding: 0;
+    }
+
+.takahashi10 {
+    font-size: 1200%;font-weight :  bolder;
+    line-height : 80%;
+    word-spacing: 0px;letter-spacing: -4px;
+    text-align: center;
+    
+    margin: 40px 0 0 0;
+    padding: 0;
+    }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ for UL*/
+ul.takahashi{
+    font-size: 180%;
+    letter-spacing:-2px;
+}
+ul.takahashi0{
+    font-size: 130%;
+    letter-spacing:-2px;
+    text-align: left;
+}
+
+ul.tinylist{
+    font-size: 80%;
+    letter-spacing:-2px;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ for PRE */
+PRE.takahashi{
+    font-size: 150%;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ for H1 handout 
+    position : absolute; top:0;right:3%;
+    */
+div.handout{
+    float: right;
+    top:0;
+    margin-top: -85px;
+    margin-right: -30px;
+    font-size: 16px; font-style : italic ;
+    color: #7A7A3E;
+}
+div.handout a{
+    color: #D3D3A7;
+}
+
+div.handout a:hover{
+    color: orange;
+    font-style : bold ;
+}
+
+ul li strong{
+    color: orange;
+    font-size: 110%;
+    }
+li{
+    list-style-type : circle;
+    }
+
+img{
+    vertical-align :  top;
+    }
+    
+    
