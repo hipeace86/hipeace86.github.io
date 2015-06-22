@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.12: http://docutils.sourceforge.net/" />
+<meta name="version" content="S5 1.1" />
+<title>Docker</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7614 2013-02-21 15:55:51Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<script src="ui/freedom/slides.js" type="text/javascript"></script>
+<link rel="stylesheet" href="ui/freedom/slides.css"
+      type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/freedom/outline.css"
+      type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/freedom/print.css"
+      type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/freedom/opera.css"
+      type="text/css" media="projection" id="operaFix" />
+
+<style type="text/css">
+#currentSlide {display: none;}
+</style>
+</head>
+<body>
+<div class="layout">
+<div id="controls"></div>
+<div id="currentSlide"></div>
+<div id="header">
+
+</div>
+<div id="footer">
+<h1>Docker</h1>
+<h2>推荐用 <a class="reference external" href="http://chrome.google.com/">Chrome</a> <a class="reference external" href="http://www.mozilla.com/firefox/">FireFox</a> 获得最佳游览效果</h2>
+</div>
+</div>
+<div class="presentation">
+<div class="slide" id="slide0">
+<h1 class="title">Docker</h1>
+
+<!-- 图片定义 -->
+<!-- Definitions of interpreted text roles (classes) for S5/HTML data. -->
+<!-- This data file has been placed in the public domain. -->
+<!-- Colours
+======= -->
+<!-- Text Sizes
+========== -->
+<!-- Display in Slides (Presentation Mode) Only
+========================================== -->
+<!-- Display in Outline Mode Only
+============================ -->
+<!-- Display in Print Only
+===================== -->
+<!-- Display in Handout Mode Only
+============================ -->
+<!-- Incremental Display
+=================== -->
+<p class="takahashi1"><span class="orange">C</span> ontinuous <span class="orange">I</span> ntegration
+<span class="blue">&amp;</span> <span class="orange">C</span> ontinuous <span class="orange">D</span> elivery</p>
+<p class="takahashi2"><span class="red">C</span> ontainerize <span class="red">d</span></p>
+
+</div>
+<div class="slide" id="what">
+<h1>What?</h1>
+<p class="small">Docker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。</p>
+<p class="small">Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后来都改名为 Docker Inc。Redhat 已经在其 RHEL6.5 中集中支持 Docker；Google 也在其 PaaS 产品中广泛应用。</p>
+<p class="small">Docker 项目的目标是实现轻量级的操作系统虚拟化解决方案。 Docker 的基础是 Linux 容器（LXC）等技术。</p>
+<p class="small">在 LXC 的基础上 Docker 进行了进一步的封装，让用户不需要去关心容器的管理，使得操作更为简便。用户操作 Docker 的容器就像操作一个快速轻量级的虚拟机一样简单。</p>
+</div>
+<div class="slide" id="why">
+<h1>Why?</h1>
+<ul class="incremental simple">
+<li>更快速的交付和部署</li>
+<li>更高效的虚拟化</li>
+<li>更轻松的迁移和扩展</li>
+<li>更简单的管理</li>
+<li>对比传统虚拟机总结</li>
+</ul>
+<table border="1" class="incremental docutils">
+<caption>Docker VS VM</caption>
+<colgroup>
+<col width="27%" />
+<col width="36%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">特性</th>
+<th class="head">容器</th>
+<th class="head">虚拟机</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>启动</td>
+<td>秒级</td>
+<td>分钟级</td>
+</tr>
+<tr><td>硬盘使用</td>
+<td>一般为MB</td>
+<td>一般为GB</td>
+</tr>
+<tr><td>性能</td>
+<td>接近原生</td>
+<td>弱于</td>
+</tr>
+<tr><td>系统支持量</td>
+<td>单机支持上千个容器</td>
+<td>一般几十个</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="slide" id="container-vs-vm">
+<h1>Container vs VM</h1>
+<blockquote>
+<p class="center"><img alt="vsdocker" class="align-top" src="dockerstatic/docker.png" /></p>
+<p class="center"><img alt="vsvm" class="align-bottom" src="dockerstatic/virtualization.png" /></p>
+</blockquote>
+</div>
+<div class="slide" id="aufs">
+<h1>AUFS</h1>
+<div class="handout container">
+git</div>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">联合文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下<span style="color: #f92672">(</span>unite several directories into a single virtual filesystem<span style="color: #f92672">)</span>。
+
+联合文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。
+
+另外，不同 Docker 容器就可以共享一些基础的文件系统层，同时再加上自己独有的改动层，大大提高了存储的效率。
+
+Docker 中使用的 AUFS（AnotherUnionFS）就是一种联合文件系统。 AUFS 支持为每一个成员目录（类似 Git 的分支）设定只读（readonly）、读写（readwrite）和写出（whiteout-able）权限, 同时 AUFS 里有一个类似分层的概念, 对只读权限的分支可以逻辑上进行增量地修改<span style="color: #f92672">(</span>不影响只读部分的<span style="color: #f92672">)</span>。
+
+Docker 目前支持的联合文件系统种类包括 AUFS, btrfs, vfs 和 DeviceMapper。
+</pre></div>
+</div>
+<div class="slide" id="id1">
+<h1>名词</h1>
+<div class="handout container">
+<ul class="simple">
+<li></li>
+</ul>
+</div>
+<ul class="incremental takahashi6 simple">
+<li>镜像 <span class="incremental">images</span></li>
+<li>容器 <span class="incremental">container</span></li>
+<li>仓库 <span class="incremental">registry</span></li>
+</ul>
+</div>
+<div class="slide" id="id2">
+<h1>常用命令</h1>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">[run</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">start</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">stop</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">restart</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">kill</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">rm</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">pause</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">unpause]</span> <span style="color: #75715e"># 容器生命周期管理</span>
+<span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">[ps</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">inspect</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">top</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">attach</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">events</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">logs</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">wait</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">export</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">port]</span> <span style="color: #75715e">#容器操作运维</span>
+<span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">[commit</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">cp</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">diff]</span> <span style="color: #75715e">#容器rootfs命令</span>
+<span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">[login</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">pull</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">push</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">search]</span> <span style="color: #75715e">#镜像仓库</span>
+<span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">[images</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">rmi</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">tag</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">build</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">history</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">save</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">import]</span> <span style="color: #75715e">#本地镜像管理</span>
+<span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">[info</span><span style="color: #f92672">|</span><span style="color: #f8f8f2">version]</span> <span style="color: #75715e">#其他命令</span>
+</pre></div>
+</div>
+<div class="slide" id="id3">
+<h1>图示</h1>
+<blockquote>
+<img alt="dockerstatic/bq.png" class="align-center" src="dockerstatic/bq.png" />
+</blockquote>
+</div>
+<div class="slide" id="dockerfile">
+<h1>Dockerfile</h1>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">FROM java:openjdk-7u65-jdk
+RUN apt-get update <span style="color: #f92672">&amp;&amp;</span> apt-get install -y wget git curl zip <span style="color: #f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+ENV JENKINS_HOME /var/jenkins_home
+<span style="color: #75715e"># Jenkins is ran with user `jenkins`, uid = 1000</span>
+<span style="color: #75715e"># If you bind mount a volume from host/vloume from a data container,</span>
+<span style="color: #75715e"># ensure you use same uid</span>
+RUN useradd -d <span style="color: #e6db74">&quot;</span><span style="color: #f8f8f2">$JENKINS_HOME</span><span style="color: #e6db74">&quot;</span> -u <span style="color: #ae81ff">1000</span> -m -s /bin/bash jenkins
+<span style="color: #75715e"># Jenkins home directoy is a volume, so configuration and build history</span>
+<span style="color: #75715e"># can be persisted and survive image upgrades</span>
+VOLUME /var/jenkins_home
+<span style="color: #75715e"># `/usr/share/jenkins/ref/` contains all reference configuration we want</span>
+<span style="color: #75715e"># to set on a fresh new installation. Use it to bundle additional plugins</span>
+<span style="color: #75715e"># or config file with your custom jenkins Docker image.</span>
+RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d
+COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
+ENV JENKINS_VERSION 1.596.2
+<span style="color: #75715e"># could use ADD but this one does not check Last-Modified header</span>
+<span style="color: #75715e"># see https://github.com/docker/docker/issues/8331</span>
+RUN curl -L http://mirrors.jenkins-ci.org/war-stable/<span style="color: #f8f8f2">$JENKINS_VERSION</span>/jenkins.war -o /usr/share/jenkins/jenkins.war
+ENV JENKINS_UC https://updates.jenkins-ci.org
+RUN chown -R jenkins <span style="color: #e6db74">&quot;</span><span style="color: #f8f8f2">$JENKINS_HOME</span><span style="color: #e6db74">&quot;</span> /usr/share/jenkins/ref
+<span style="color: #75715e"># for main web interface:</span>
+EXPOSE 8080
+<span style="color: #75715e"># will be used by attached slave agents:</span>
+EXPOSE 50000
+USER jenkins
+COPY jenkins.sh /usr/local/bin/jenkins.sh
+ENTRYPOINT <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;/usr/local/bin/jenkins.sh&quot;</span><span style="color: #f92672">]</span>
+<span style="color: #75715e"># from a derived Dockerfile, can use `RUN plugin.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle</span>
+COPY plugins.sh /usr/local/bin/plugins.sh
+</pre></div>
+</div>
+<div class="slide" id="id4">
+<h1>持续集成</h1>
+<blockquote>
+<img alt="dockerstatic/continuousintegration.gif" src="dockerstatic/continuousintegration.gif" />
+</blockquote>
+</div>
+<div class="slide" id="id5">
+<h1>做法</h1>
+</div>
+<div class="slide" id="id6">
+<h1>要做的事</h1>
+<ul class="takahashi2 simple">
+<li>Test <span class="fuchsia">ENV</span> as a service</li>
+<li>Jenkins 集成</li>
+</ul>
+</div>
+<div class="slide" id="id7">
+<h1>假如拥有如下技能！</h1>
+<div class="handout container">
+JD</div>
+<ul>
+<li><p class="first">会点 Linux</p>
+</li>
+<li><p class="first">会用 一个编程语言(<span class="incremental">python</span>、<em>PHP</em>)</p>
+</li>
+<li><p class="first">会点 css js</p>
+</li>
+<li><p class="first">知道 github、bitbucket</p>
+</li>
+<li><p class="first">基础 生产环境搭建</p>
+<blockquote>
+<div class="animation container">
+<p class="incremental hidden slide-display takahashi4">Come On!</p>
+</div>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="slide" id="end">
+<h1>End</h1>
+<blockquote>
+<p class="takahashi4">Thank You!</p>
+<p class="takahashi4"><span class="orange">Q</span> &amp; <span class="orange">A</span></p>
+</blockquote>
+</div>
+</div>
+</body>
+</html>
