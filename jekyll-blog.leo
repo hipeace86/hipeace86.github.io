@@ -17,9 +17,9 @@
 <v t="office.20150611132001.2"><vh>@nosent 2015-06-11-mesosphere-single-node-install-centos6.md</vh></v>
 <v t="Tech.20150529220531.3"><vh>@nosent  2015-05-29-install-openstack-on-ubuntu.md</vh></v>
 </v>
-<v t="Tech.20150529220531.10"><vh>2014</vh>
+<v t="Tech.20150529220531.10" a="E"><vh>2014</vh>
+<v t="Tech.20150529220531.11"><vh>@nosent 2014-10-20-virtualbox-install-openstack.md</vh></v>
 <v t="Tech.20150529220531.12"><vh>@nosent 2014-08-21-backbone-first-programing.md</vh></v>
-<v t="Tech.20150529220531.11"><vh>@nosent 2014-07-08-virtualbox-install-openstack.md</vh></v>
 <v t="Tech.20150529220531.13"><vh>@nosent 2014-07-07-Intelligent-Router-With-openwrt-and-openvpn.md</vh></v>
 </v>
 <v t="Tech.20150610215432.2" a="E"><vh>2013</vh>
@@ -31,8 +31,10 @@
 <v t="Tech.20150611213700.3"><vh>@nosent 2013-04-19-mercurial-dotencode-not-supported.md</vh></v>
 <v t="Tech.20150611213700.4"><vh>@nosent 2013-04-17-CentOS-Install-Nvidia-Driver.md</vh></v>
 <v t="Tech.20150611213700.5"><vh>@nosent 2013-04-16-CentOS-Compile-Install-Python27.md</vh></v>
+<v t="Tech.20150702225641.3"><vh>@nosent 2013-04-02-php-compile-on-little-memory-vps.md</vh></v>
+<v t="Tech.20150702225641.4"><vh>@nosent 2013-03-29-sublime-plugins.md</vh></v>
 </v>
-<v t="office.20150529181219.4"><vh>2011</vh>
+<v t="office.20150529181219.4" a="E"><vh>2011</vh>
 <v t="office.20150529181219.5"><vh>@nosent 2011-02-23-first-python-programe.md</vh></v>
 </v>
 </v>
@@ -43,7 +45,7 @@
 <t tx="Tech.20150529220531.11">---
 layout: post
 title:  "virtualbox单网卡安装OpenStack"
-date:   2015-03-08 22:21:49
+date:   2014-10-20 22:21:49
 categories: OpenStack
 tags: 虚拟化
 ---
@@ -847,6 +849,73 @@ make &amp;&amp; make altinstall
 {% endhighlight%}
 
 多个版本的python共存，建议使用virtualenv来管理项目，指定使用哪个版本的python</t>
+<t tx="Tech.20150702225641.3">---
+layout: post
+title:  64位小内存机器php编译出现apprentice.lo 错误
+date:   2013-04-02 23:19:06
+categories: PHP
+tags: 折腾
+---
+
+呵呵，感觉这个博客老是写些php的东西
+与初衷不太一样，本来弄这个域名是想多记录python学习的
+不过没有办法，目前还是做php居多 手上在写一个python的项目呢，基于tornado
+以后有时间了会把写这个项目中遇到的问题做一个总结
+
+
+先说说这个php的安装，以前也编译过几次，不过都是在至少8G以上的服务器上
+而这次是买了个[阿里云主机](http://www.aliyun.com/cps/rebate?from_uid=8H7MkzZJ8S3Vw7FJ1pC+/4DdnhBD4gGL)
+内存只有512M，跑些小东西是足够了
+
+
+在编译php时遇到的这个错误，最后在[https://bugs.php.net/bug.php?id=48809](https://bugs.php.net/bug.php?id=48809)上查到了原因
+原来是内存小导致的 解决办法很简单 编译选项加上 * –disable-fileinfo * 即可
+
+</t>
+<t tx="Tech.20150702225641.4">---
+layout: post
+title: 常用sublime插件  
+date:   2013-03-29 09:23:06
+categories: Editor
+tags: 折腾
+---
+
+
+最近工作用的机器出了问题，只能用一根内存条了，还要开上虚拟机 做开发时使用netbeans 或者是eclipse真就悲剧了
+内存不足啊
+
+
+看到sublime这个东西试用了一下，不得不说它是一个很好用的编辑器，强大的插件支持，数量居多的快捷键，主要是内存占用少，就它了
+记录几个我所用的插件
+
+
+插件的安装推荐先装上package control
+在编辑器中按下ctrl+` 在 console窗口输入
+
+{% highlight python %}
+
+import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+
+{% endhighlight %}
+
+
+回车 重启sublime
+列下我所安装的插件 (ctrl+shift+p输入list package回车)
+
+{% highlight  shell%}
+
+Indent Guides
+jquery sinppets pack
+jsformat
+markdown preview
+sftp
+tag
+tagwrapper
+zen coding
+theme soda
+sidebarenhancements
+
+{% endhighlight %}</t>
 <t tx="office.20150529181219.1"></t>
 <t tx="office.20150529181219.2">@path _posts
 @language rest</t>
