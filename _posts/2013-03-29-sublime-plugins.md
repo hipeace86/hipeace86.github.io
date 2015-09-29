@@ -28,7 +28,7 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 回车 重启sublime
 列下我所安装的插件 (ctrl+shift+p输入list package回车)
 
-{% highlight  shell%}
+{% highlight  bash%}
 
 Indent Guides
 jquery sinppets pack
