@@ -32,6 +32,8 @@ github:   hipeace86
 
 highlighter: pygments
 
+excerpt_separator: "" 
+
 # Build settings
 markdown: kramdown
 sass:
