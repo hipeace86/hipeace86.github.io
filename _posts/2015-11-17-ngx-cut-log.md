@@ -12,7 +12,7 @@ tags: Python
 
 
 {% highlight python%}
-
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 # author:hipeace86
 # nginx 日志切割脚本
