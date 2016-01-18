@@ -2,8 +2,8 @@
 layout: post
 title:  使用Lua脚本切割nginx日志
 date:   2015-12-16 21:06:06
-categories: lua
-tags: lua
+categories: Lua
+tags: Lua
 ---
 
 
