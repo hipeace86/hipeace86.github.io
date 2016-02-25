@@ -28,7 +28,7 @@ github:   hipeace86
 # Google Analytics
 google_analytics: UA-73166429-1
 
-highlighter: pygments
+highlighter: rouge
 
 excerpt_separator: ""
 
