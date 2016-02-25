@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "virtualbox单网卡安装OpenStack"
-date:   2015-03-08 22:21:49
+date:   2014-07-08 22:21:49
 categories: OpenStack
 tags: 虚拟化
 ---
