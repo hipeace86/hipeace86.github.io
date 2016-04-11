@@ -10,19 +10,20 @@ CentOS不像ubuntu那样省事，很多驱动ubuntu是自动安装的
 刚换的机器装了CentOS结果显卡驱动安装不了，出现
 
 
-
-`ERROR: You appear to be running an X server; please exit X before            
-         installing.  For further details, please see the section INSTALLING   
-         THE NVIDIA DRIVER in the README available on the Linux driver         
+{% highlight bash%}
+ERROR: You appear to be running an X server; please exit X before
+         installing.  For further details, please see the section INSTALLING
+         THE NVIDIA DRIVER in the README available on the Linux driver
          download page at www.nvidia.com.`
 
+{% endhighlight %}
 
 错误 直接修改/etc/inittab下把5改成了3然后重启安装也一样有这个错误
 
 后来找到解决办法，原来是与系统自带的2D驱动冲突
 要做以下修改
 
-{% highlight bash linenos%}
+{% highlight bash%}
 vi /etc/modprobe.d/blacklist.conf
 #添加
 blacklist nouveau
@@ -32,7 +33,7 @@ blacklist nouveau
 还有上面提到的/etc/inittab 中 id:5:initdefault: 修改为 id:3:initdefault:
 重新制作启动镜像
 
-{% highlight bash linenos%}
+{% highlight bash%}
 mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak
 dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
 {% endhighlight %}
