@@ -113,6 +113,6 @@ make distclean
 {% endhighlight %}
 
 
-[yasm]: http://7xjbml.com1.z0.glb.clouddn.com/ffmpeg/src/yasm-1.3.0.tar.gz
-[lame]: http://7xjbml.com1.z0.glb.clouddn.com/ffmpeg/src/lame-3.99.5.tar.gz
-[libvpx]: http://7xjbml.com1.z0.glb.clouddn.com/ffmpeg/src/libvpx.tar.gz
+[yasm]: http://gitcdn.xbnpy.com/ffmpeg/src/yasm-1.3.0.tar.gz
+[lame]: http://gitcdn.xbnpy.com/ffmpeg/src/lame-3.99.5.tar.gz
+[libvpx]: http://gitcdn.xbnpy.com/ffmpeg/src/libvpx.tar.gz

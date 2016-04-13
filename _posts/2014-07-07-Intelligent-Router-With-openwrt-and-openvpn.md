@@ -40,7 +40,7 @@ config wifi-device  radio0
     list ht_capab   DSSS_CCK-40
     # REMOVE THIS LINE TO ENABLE WIFI:
     # option disabled 1
- 
+
 config wifi-iface
     option device   radio0
     option network  lan
@@ -51,22 +51,22 @@ config wifi-iface
 {% endhighlight%}
 * 修改网络配置
 
-{% highlight bash %}  
+{% highlight bash %}
 vim /etc/config/network
-{% endhighlight%}  
-    
+{% endhighlight%}
+
 注释掉option ifname ‘eth0′并增加WAN口设置，
 
-{% highlight bash %}  
+{% highlight bash %}
 config interface 'loopback'
     option ifname 'lo'
     option proto 'static'
     option ipaddr '127.0.0.1'
     option netmask '255.0.0.0'
- 
+
 config globals 'globals'
     option ula_prefix 'fd48:f746:e8a5::/48'
- 
+
 config interface 'lan'
     # option ifname 'eth0'
     option type 'bridge'
@@ -74,7 +74,7 @@ config interface 'lan'
     option ipaddr '192.168.1.1'
     option netmask '255.255.255.0'
     option ip6assign '60'
- 
+
 config interface 'wan'
     option ifname 'eth0'
     option proto 'pppoe'
@@ -115,17 +115,17 @@ config 'mount'
     option  device  /dev/sdb1
     option  fstype  ext4
     option  enabled 1
- 
+
 config 'swap'
     option  device  /dev/sdb2
     option  enabled 1
- 
+
 config 'mount'
     option  target  /mnt/home
     option  device  /dev/sdb3
     option  fstype  ext4
     option  enabled 1
-{% endhighlight %}    
+{% endhighlight %}
 重启路由，就能查看到分区已经挂载了
 
 {% highlight bash %}
@@ -141,7 +141,7 @@ tmpfs                   512.0K         0    512.0K   0% /dev
 overlayfs:/overlay        1.1M    652.0K    436.0K  60% /
 /dev/sdb1                 1.9G     72.8M      1.7G   4% /mnt/usb
 /dev/sdb3               844.3M     28.0M    774.1M   3% /mnt/home
-{% endhighlight %}  
+{% endhighlight %}
 接着执行如下操作：
 
 {% highlight bash %}
@@ -149,22 +149,22 @@ mkdir /tmp/root
 mount -o bind / /tmp/root
 cp /tmp/root/* /mnt/usb -a
 umount /tmp/root
-rm -r /tmp/root  
-{% endhighlight %}  
+rm -r /tmp/root
+{% endhighlight %}
 
 接着在opkg.conf配置中增加dest usb /mnt/usb，之后就可以将我们需要的OpenVPN安装到USB中了：
-{% highlight bash %}  
+{% highlight bash %}
 vim /etc/opkg.conf
-    
+
 opkg update
 opkg --dest usb install openvpn
 ln -s /mnt/usb/usr/lib/libssl.so.1.0.0 /usr/lib/
 ln -s /mnt/usb/usr/lib/libcrypto.so.1.0.0 /usr/lib/
 ln -s /mnt/usb/usr/lib/liblzo2.so.2 /usr/lib/
 ln -s /mnt/usb/usr/sbin/openvpn /usr/sbin/
-{% endhighlight %}  
+{% endhighlight %}
 * 安装后配置
-{% highlight bash %}  
+{% highlight bash %}
 ln -s /mnt/usb/lib/modules/3.10.4/tun.ko /lib/modules/3.10.4/
 ln -s /mnt/usb/etc/modules.d/30-tun /etc/modules
 ln -s /mnt/usb/etc/modules.d/30-tun /etc/modules.d/
@@ -174,10 +174,10 @@ modinfo tun
 /etc/init.d/firewall disable
 iptables -L -n --line-number
 iptables -t nat -vnL POSTROUTING --line-number
-#此上为关闭防火墙，并查看默认转发规则            
+#此上为关闭防火墙，并查看默认转发规则
 {% endhighlight %}
 可以看到此时默认是没有任何转发规则的，因此此时连接到路由器的设备是无法上网的，配置路由每次上电重启时候自动加载tun模块并加入转发规则：
-{% highlight bash %} 
+{% highlight bash %}
 vim /etc/rc.local
 {% endhighlight %}
 修改内容如下：
@@ -186,14 +186,14 @@ insmod tun
 iptables -I FORWARD -o tun0 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -j MASQUERADE
 iptables-save
- 
+
 exit 0
 {% endhighlight %}
 * 正题，配置vpn客户端
 我是在/mnt/usb/data/openvpn下建立了703n.ovpn的配置文件，这个路径可随自己意愿来设置；拿出[上次文章]中生成的ca.crt，client.crt,client.key三个文件也放到此文件夹下
 修改703n.ovpn内容如下
 
-{% highlight bash %}   
+{% highlight bash %}
 client
 remote #remoteIP 1194 #修改成自己的服务器IP
 dev tun
@@ -201,47 +201,47 @@ comp-lzo
 ca /mnt/usb/data/openvpn/ca.crt
 cert /mnt/usb/data/openvpn/client.crt
 key /mnt/usb/data/openvpn/client.key
- 
+
 route-delay 2
 route-method exe
 max-routes 3888
 redirect-gateway def1
 verb 0      #据说如此设置就不会生成日志了，为了节省空间我也这么个性了
- 
+
 #此下三行为智能规则中添加，下文将提到
 #script-security 2
-#up vpnup.sh  
+#up vpnup.sh
 #down vpndown.sh
 
 
 openvpn –config ./703n.ovpn
-{% endhighlight %} 
+{% endhighlight %}
 到此为止，就可以连接vpn上网了，不过并不能智能转发
 
 * 终极目标ChnRoutes
 下载ChnRoutes并执行
-{% highlight bash %} 
+{% highlight bash %}
 python chnroutes.py -p android
-{% endhighlight%} 
+{% endhighlight%}
 会生成两个文件vpnup.sh和vpndown.sh，将这两个文件头部的alias删除;并上传到路由器中，和703n.ovpn同一目录；将703n.ovpn最后三行的注释去掉；在电脑上tracert下百度和twitter吧
 * 最后一步，openvpn开机自启动
 
 编辑/etc/rc.local
 在exit0之前添加
-{% highlight bash %} 
+{% highlight bash %}
 /usr/sbin/openvpn --cd /mnt/usb/data/openvpn --config 703n.ovpn --daemon
-{% endhighlight %} 
+{% endhighlight %}
 至此已完全完成了智能路由的改造工作，再也不用在每个设置上配置东西了，连上wifi就能直接使用！
 
 目前为此，我的这个小路由开机一周，openvpn一直能使用的，还是很稳定的
 
 来张小图
 
-![MG_1950-300x224.jpg](http://7xjbml.com1.z0.glb.clouddn.com/IMG_1950-300x224.jpg)
+![MG_1950-300x224.jpg](http://gitcdn.xbnpy.com/IMG_1950-300x224.jpg)
 
-        
-        
-        
-        
+
+
+
+
 [tp-link703n]: http://www.benben.cc/blog/?p=395
-[上次文章]: 
+[上次文章]:
