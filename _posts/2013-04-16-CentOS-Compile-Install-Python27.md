@@ -10,7 +10,7 @@ tags: Python
 
 {% highlight bash %}
 yum groupinstall "Development tools"
-yum install zlib-devel libxml2-devel libxslt-devel openssl openssl-devel sqlite-devel
+yum install zlib-devel libxml2-devel libxslt-devel openssl openssl-devel sqlite-devel readline-devel
 wget http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tgz
 tar xf Python-2.7.3.tgz
 cd Python-2.7.3
