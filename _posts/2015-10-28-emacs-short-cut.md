@@ -3,7 +3,7 @@ layout: post
 title:  emacs快捷键收藏
 date:   2015-10-28 22:25:06
 categories: emacs
-tags: 折腾
+tags: Emacs
 ---
 
 
