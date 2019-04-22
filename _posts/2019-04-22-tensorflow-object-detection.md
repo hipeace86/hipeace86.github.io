@@ -1,10 +1,9 @@
-
 ---
 layout: post
-title:  Tensorflow Object detection 教程
+title:  “Tensorflow Object detection 教程“
 date:   2019-04-22 14:31:06
-categories: DeepLearning
-tags: 折腾
+categories: 深度学习
+tags: Deeplearning
 ---
 
 
